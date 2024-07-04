@@ -25,7 +25,7 @@ router.post('/login', async (req, res) => {
         const { username, password } = req.body
         const user = await userModel.findOne({ username, password })
         if (!user) {
-            return res.status(401).json({ error: 'Invalid username or password' });
+            return res.status(201).json({ error: 'Invalid username or password' });
         } else {
             return res.status(200).json(user);
         }
@@ -1073,6 +1073,21 @@ router.delete('/deleteList/:id/:category/:listid', async (req, res) => {
         return res.json(user)
     }
     catch (err) {
+        console.log(err)
+    }
+})
+
+router.get('/users2', async(req,res) => {
+    console.log("here")
+    try{
+        const usersList = await userModel.find({}, '_id name username profilePic')
+        if(!usersList){
+            res.send("No Users Found")
+            return
+        }
+        res.send(usersList)
+    }
+    catch(err){
         console.log(err)
     }
 })
